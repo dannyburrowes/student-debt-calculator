@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Loan Repayment Data</title>
+</head>
+<body>
+    <h1>Loan Repayment Data</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Year</th>
+                <th>Salary</th>
+                <th>Debt</th>
+                <th>Interest Rate (%)</th>
+                <th>Paid This Year</th>
+                <th>Interest This Year</th>
+                <th>Total Paid</th>
+                <th>Total Interest</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in data %}
+            <tr>
+                <td>{{ item["Year"] }}</td>
+                <td>£{{ item["Salary"] }}</td>
+                <td>£{{ item["Debt"] }}</td>
+                <td>{{ item["Interest Rate %"] }}</td>
+                <td>£{{ item["Paid This Year"] }}</td>
+                <td>£{{ item["Interest This Year"] }}</td>
+                <td>£{{ item["Total Paid"] }}</td>
+                <td>£{{ item["Total Interest"] }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Student Debt Calculator - Results</title>
+</head>
+<body>
+    <h1>Student Debt Calculator - Results</h1>
+
+    <h2>Degrees:</h2>
+    <ul>
+        {% for degree in degrees %}
+            <li>
+                Degree Type: {{ degree.degree_type }},
+                Study Length: {{ degree.study_length }} years,
+                Enrollment Year: {{ degree.year_of_enrollment }},
+                Graduation Year: {{ degree.year_of_graduation }}
+            </li>
+        {% endfor %}
+    </ul>
+
+</body>
+</html>
