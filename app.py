@@ -1,4 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for
+import datetime
 
 app = Flask(__name__)
 
@@ -10,60 +11,85 @@ def render_index():
     return render_template("index.html")
 
 
+# @app.route("/calculate", methods=["POST"])
+# def calculate():
+#
+#
+#     loan_data = {
+#         "loan_type": loan_type,
+#         "remaining_student_debt": remaining_student_debt,
+#         "annual_income": annual_income,
+#     }
+#
+#     loan.append(loan_data)
+
+
 @app.route("/calculate", methods=["POST"])
-def calculate():
-    loan_type = request.form["loan_type"]
-    remaining_student_debt = int(request.form["remaining_student_debt"])
-    annual_income = int(request.form["annual_income"])
+def calculate_loan_repayment():
+    try:
+        loan_type = request.form["loan_type"]
+        remaining_student_debt = int(request.form["remaining_student_debt"])
+        annual_income = int(request.form["annual_income"])
+        today = datetime.date.today()
+        year = today.year
+        total_repayment = 0
+        total_interest = 0
 
-    loan_data = {
-        "loan_type": loan_type,
-        "remaining_student_debt": remaining_student_debt,
-        "annual_income": annual_income,
-    }
+        thresholds = {
+            "Type 1": 22015,
+            "Type 2": 27295,
+            "Type 4": 27660,
+            "Postgraduate": 21000
+        }
 
-    loan.append(loan_data)
+        repayment_rates = {
+            "Type 1": 0.09,
+            "Type 2": 0.09,
+            "Type 4": 0.09,
+            "Postgraduate": 0.06
+        }
 
-    return redirect(url_for("result"))
+        interest_rates = {
+            "Type 1": 1.25,
+            "Type 4": 1.25,
+            "Postgraduate": 6
+        }
 
-def calculate_loan_repayment(loan_type, annual_income):
-    thresholds = {
-        "Plan 1": 22015,
-        "Plan 2": 27295,
-        "Plan 4": 27660,
-        "Plan 5": 25000,
-        "Postgraduate": 21000
-    }
-
-    rates = {
-        "Plan 1": 0.09,
-        "Plan 2": 0.09,
-        "Plan 4": 0.09,
-        "Plan 5": 0.09,
-        "Postgraduate": 0.06
-    }
-
-    if loan_type in thresholds:
         threshold = thresholds[loan_type]
-        rate = rates[loan_type]
+        repayment_rate = repayment_rates[loan_type]
+        interest_rate = 0
+        if loan_type != "Type 2":
+            interest_rate = interest_rates[loan_type]
+        elif loan_type == "Type 2":
+            if threshold < annual_income <= 49130:
+                interest_rate = round(((annual_income - threshold) * 0.00013739) + 1.5, 2)
+            elif annual_income > 49130:
+                interest_rate = 4.5
+            elif annual_income <= threshold:
+                interest_rate = 1.5
+
+        interest_this_year = remaining_student_debt * (interest_rate * 0.01)
 
         if annual_income > threshold:
-            repayment = (annual_income - threshold) * rate
-            return round(repayment, 2)  # Round to 2 decimal places for currency
+            annual_repayment = round((annual_income - threshold) * repayment_rate, 2)
         else:
-            return 0
-    else:
-        return 0
+            annual_repayment = 0
 
-@app.route("/loan_repayment_data")
-def loan_repayment():
-    return render_template("loan_repayment.html", data=loan_repayment_data)
+        for i in range(1, 30):
+            year += 1
+            remaining_student_debt + interest_this_year - annual_repayment
+            total_repayment += annual_repayment
+            total_interest += interest_this_year
 
+        return redirect(url_for("result"))
+        # return render_template("result.html", loan_type=loan_type, annual_income=annual_income, remaining_student_debt=remaining_student_debt, interest_rate=interest_rate, annual_repayment=annual_repayment, interest_this_year=interest_this_year, total_repayment=total_repayment, total_interest=total_interest)
+    except Exception as e:
+        return f"An error occurred: {str(e)}", 500
 
-# @app.route("/result")
-# def result():
-#     return render_template("result.html", degrees=degrees)
+@app.route("/result")
+def result():
+    return render_template("result.html")
 
 
 if __name__ == "__main__":
-    app.run()
+    app.run(debug=False)

@@ -2,22 +2,34 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Student Debt Calculator - Results</title>
+    <title>Result</title>
 </head>
 <body>
-    <h1>Student Debt Calculator - Results</h1>
-
-    <h2>Degrees:</h2>
-    <ul>
-        {% for degree in degrees %}
-            <li>
-                Degree Type: {{ degree.degree_type }},
-                Study Length: {{ degree.study_length }} years,
-                Enrollment Year: {{ degree.year_of_enrollment }},
-                Graduation Year: {{ degree.year_of_graduation }}
-            </li>
+    <h1>Result</h1>
+    <table>
+        <tr>
+            <th>Year</th>
+            <th>Remaining Debt</th>
+            <th>Interest Rate (%)</th>
+            <th>Annual Income</th>
+            <th>Annual Repayment</th>
+            <th>Interest This Year</th>
+            <th>Total Repayment</th>
+            <th>Total Interest</th>
+        </tr>
+        {% for year in range(1, 30) %}
+        <tr>
+            <td>{{ year }}</td>
+            <td>£{{ remaining_student_debt }}</td>
+            <td>{{ interest_rate }}</td>
+            <td>£{{ annual_income }}</td>
+            <td>£{{ annual_repayment }}</td>
+            <td>£{{ interest_this_year }}</td>
+            <td>£{{ total_repayment }}</td>
+            <td>£{{ total_interest }}</td>
+        </tr>
         {% endfor %}
-    </ul>
-
+    </table>
 </body>
 </html>
+
