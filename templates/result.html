@@ -17,16 +17,17 @@
             <th>Total Repayment</th>
             <th>Total Interest</th>
         </tr>
-        {% for year in range(1, 30) %}
+        {% for year in range(0, 30) %}
+
         <tr>
             <td>{{ year }}</td>
-            <td>£{{ remaining_student_debt }}</td>
-            <td>{{ interest_rate }}</td>
-            <td>£{{ annual_income }}</td>
-            <td>£{{ annual_repayment }}</td>
-            <td>£{{ interest_this_year }}</td>
-            <td>£{{ total_repayment }}</td>
-            <td>£{{ total_interest }}</td>
+            <td>£{{ remaining_student_debt[year] }}</td>
+            <td>{{ interest_rate[year] }}</td>
+            <td>£{{ annual_income[year] }}</td>
+            <td>£{{ annual_repayment[year] }}</td>
+            <td>£{{ interest_this_year[year] }}</td>
+            <td>£{{ total_repayment[year] }}</td>
+            <td>£{{ total_interest[year] }}</td>
         </tr>
         {% endfor %}
     </table>

@@ -68,27 +68,43 @@ def calculate_loan_repayment():
             elif annual_income <= threshold:
                 interest_rate = 1.5
 
-        interest_this_year = remaining_student_debt * (interest_rate * 0.01)
 
         if annual_income > threshold:
             annual_repayment = round((annual_income - threshold) * repayment_rate, 2)
         else:
             annual_repayment = 0
 
-        for i in range(1, 30):
-            year += 1
-            remaining_student_debt + interest_this_year - annual_repayment
-            total_repayment += annual_repayment
-            total_interest += interest_this_year
+        remaining_student_debts_list = [remaining_student_debt]
+        total_repayments_list = ["-"]
+        total_interests_list = ["-"]
+        interest_this_year_list = ["-"]
+        annual_repayments_list = ["-"]
+        interest_rates_list = ["-"]
+        annual_incomes_list = ["-"]
 
-        return redirect(url_for("result"))
-        # return render_template("result.html", loan_type=loan_type, annual_income=annual_income, remaining_student_debt=remaining_student_debt, interest_rate=interest_rate, annual_repayment=annual_repayment, interest_this_year=interest_this_year, total_repayment=total_repayment, total_interest=total_interest)
+        for i in range(0, 30):
+            year += 1
+            interest_this_year = remaining_student_debt * (interest_rate * 0.01)
+            remaining_student_debt = remaining_student_debt + interest_this_year - annual_repayment
+            remaining_student_debts_list.append(round(remaining_student_debt, 2))
+            annual_repayments_list.append(round(annual_repayment, 2))
+            interest_rates_list.append(interest_rate)
+            annual_incomes_list.append(annual_income)
+            total_repayment += annual_repayment
+            total_repayments_list.append(round(total_repayment, 2))
+            total_interest += interest_this_year
+            total_interests_list.append(round(total_interest, 2))
+            interest_this_year_list.append(round(interest_this_year, 2))
+
+
+        # return redirect(url_for("result"))
+        return render_template("result.html", loan_type=loan_type, annual_income=annual_incomes_list, remaining_student_debt=remaining_student_debts_list, interest_rate=interest_rates_list, annual_repayment=annual_repayments_list, interest_this_year=interest_this_year_list, total_repayment=total_repayments_list, total_interest=total_interests_list)
     except Exception as e:
         return f"An error occurred: {str(e)}", 500
 
-@app.route("/result")
-def result():
-    return render_template("result.html")
+# @app.route("/result")
+# def result():
+#     return render_template("result.html")
 
 
 if __name__ == "__main__":
