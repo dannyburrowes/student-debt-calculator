@@ -96,8 +96,6 @@ def calculate_loan_repayment():
             total_interests_list.append(round(total_interest, 2))
             interest_this_year_list.append(round(interest_this_year, 2))
 
-        # HELLO changes
-
 
         # return redirect(url_for("result"))
         return render_template("result.html", loan_type=loan_type, annual_income=annual_incomes_list, remaining_student_debt=remaining_student_debts_list, interest_rate=interest_rates_list, annual_repayment=annual_repayments_list, interest_this_year=interest_this_year_list, total_repayment=total_repayments_list, total_interest=total_interests_list)
