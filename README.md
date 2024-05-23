@@ -1,4 +1,5 @@
-# About
+# Student Debt Calculator
+## About
 This app takes 4 parameters and works out your repayment plan accordingly.
 Input your loan type, remaining student debt, annual salary and estimated average annual pay rise to get a comprehensive breakdown of your repayment plan.
 The repayment plan breakdown includes the following information for each year: remaining debt, loan interest rate, interest paid (£), repayment amount (£), cumulative repayment, cumulative interest paid (£).
